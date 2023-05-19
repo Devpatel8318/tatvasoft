@@ -1,8 +1,9 @@
 import React from 'react'
+import ButtonAppBar from './ButtonAppBar'
 
 function Header() {
   return (
-    <h1>Header</h1>
+    <ButtonAppBar/>
   )
 }
 
