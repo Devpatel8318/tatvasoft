@@ -4,4 +4,15 @@
 
 h2{
     color: gray;
+    margin-top: 20px;
+}
+
+*{
+    padding: 0px;
+    margin: 0px;
+}
+.myLink{
+    margin: 200px;
+    color: forestgreen;
+    font-size: 2.5em;
 }

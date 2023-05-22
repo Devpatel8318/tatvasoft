@@ -24,6 +24,8 @@ function IndexPage() {
             <img src={Icon} alt='imagehotel' /> <br />
             <Link className='link' to='/login'>Login Page</Link> <br />
             <Link className='link' to='/register'>Register Page</Link> <br />
+
+            <Link className='link' to='/products'><h3>Products</h3></Link> <br />
             <Footer />
         </>
     )
