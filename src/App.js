@@ -6,7 +6,7 @@ import {
 import IndexPage from "./components/IndexPage";
 import RegisterPage from "./components/RegisterPage";
 import LoginPage from "./components/LoginPage";
-import ProductList from "./components/ProductList";
+import ProductList from "./components/IndexPage";
 
 function App() {
   return (
@@ -15,7 +15,6 @@ function App() {
         <Route path="/" element={<IndexPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/products" element={<ProductList />} />
       </Routes>
     </BrowserRouter>
   );

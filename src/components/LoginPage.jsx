@@ -1,24 +1,95 @@
 import React from 'react'
 import Footer from './Footer'
 import Header from './Header'
-import { Link } from 'react-router-dom'
-import { Button, TextField } from '@mui/material'
+import { useFormik } from "formik";
+import * as Yup from "yup";
+
+
+
 function LoginPage() {
+
+
+  const initialValues = {
+    email: "",
+    password: "",
+   
+  };
+  const { values, handleBlur, handleChange, handleSubmit, errors, touched } =
+    useFormik({
+      initialValues,
+      validationSchema: Yup.object({
+        email: Yup.string().email().required("Please enter your email"),
+        password: Yup.string().min(6).required("Please enter your password"),
+      }),
+      validateOnChange: true,
+      validateOnBlur: false,
+      onSubmit: (values, action) => {
+        console.log("values", values);
+        action.resetForm();
+        window.location.replace('/'); 
+      },
+    });
+
+  console.log(errors);
   return (
     <>
       <Header />
-      <h1>Login Page</h1>
-      <h3>This is Login Page Page</h3>
-      <br />
-      <br /> <br />
-      <TextField id="outlined-basic" label="User Name" variant="outlined" /> 
-      <TextField id="filled-basic" label="Password" variant="filled" /> <br /><br />
+      <div className='w-10/12 mx-auto text-center text-5xl mb-7'>
+        <span className='text-gray-700'>Login</span>
+      </div>
+      <form onSubmit={handleSubmit} className='p-2 w-5/12 mx-auto' >
+        <div className='flex justify-around px-5 gap-5 mb-4'>
+          <div className='flex gap-2 grow flex-col' >
+            <label htmlFor="email" >
+              Email
+            </label>
+            <input
+              type="email"
+              autoComplete="off"
+              name="email"
+              id="email"
+              placeholder="Email"
+              value={values.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className="px-2 py-1 w-full -mr-28 border"
+            />
+            {errors.email && touched.email ? (
+              <p className='text-lg text-red-500 font-thin' >{errors.email}</p>
+            ) :  <p className='text-lg text-red-500 font-thin invisible' >"email must be a valid email"</p>}
+          </div>
+        </div>
+        <div className='flex justify-around px-5 gap-5 mb-4'>
 
-      <Button variant="contained">Login</Button> <br /> <br />
+          <div className='flex gap-2 grow flex-col' >
+            <label htmlFor="password">
+              Password
+            </label>
+            <input
+              type="password"
+              autoComplete="off"
+              name="password"
+              id="password"
+              placeholder="Password"
+              value={values.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className="px-2 py-1 w-full border"
+            />
+            {errors.password && touched.password ? (
+              <p className='text-lg text-red-500 font-thin' >{errors.password}</p>
+            ) : <p className='text-lg text-red-500 font-thin invisible' >"password must be at least 6 characters"</p>}
+          </div>
+        </div>
 
 
-      <Link className='link' to='/'>Index Page</Link> <br />
-      <Link className='link' to='/register'> Register Page </Link>
+
+        <div className='w-full text-center mt-20' >
+          <button className='bg-red-400 px-5 py-4 rounded-md text-white' type="submit">
+            Login
+          </button>
+        </div>
+      </form>
       <Footer />
     </>
   )

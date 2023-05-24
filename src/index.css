@@ -1,3 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 .link{
     color:red
 }
@@ -15,4 +18,8 @@ h2{
     margin: 200px;
     color: forestgreen;
     font-size: 2.5em;
+}
+
+input[type="text"] , input[type="password"],input[type="email"],input[type="select"]{
+    @apply px-4 py-2;
 }
