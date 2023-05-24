@@ -1,6 +1,6 @@
 import React from 'react'
-import Footer from './Footer'
-import Header from './Header'
+import Footer from '../../components/Footer'
+import Header from '../../components/Header'
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -41,12 +41,17 @@ function RegisterPage() {
     return (
         <>
             <Header />
+            <div className="p-12 w-full flex justify-center"> Home &nbsp; {">"} &nbsp; <span className='text-red-500'>Create an Account</span></div>
             <div className='w-10/12 mx-auto text-center text-5xl mb-7'>
-                <span className='text-gray-700'>Register Account</span>
+                <span className='text-gray-700 font-semibold '>Login or Create an Account</span>
             </div>
-            <form onSubmit={handleSubmit} className='p-2 w-8/12 mx-auto ' >
+            
+            <form onSubmit={handleSubmit} className='pt-12 w-8/12 mx-auto ' >
 
-                <div className='flex justify-between px-5 gap-5 mt-2'>
+            <div className='font-semibold text-2xl pb-5 border-b-4 border-slate-200'>Personal Information</div>
+            <div className='font-normal text-slate-500 text-lg py-5'>Please enter the following information to create your account </div>
+                {/* first name last name */}
+                <div className='flex justify-between gap-5 mt-2'>
                     <div className='flex gap-2 flex-col w-1/2'>
                         <label htmlFor="name" >
                             First Name
@@ -90,11 +95,8 @@ function RegisterPage() {
                 </div>
 
 
-
-                <div className='flex justify-between px-5 gap-5 mt-2'>
-
-
-
+                {/* email */}
+                <div className='flex justify-between  gap-5 mt-2'>
                     <div className='flex gap-2 flex-col w-1/2' >
                         <label htmlFor="email" >
                             Email
@@ -127,8 +129,10 @@ function RegisterPage() {
 
                 </div>
 
+                <div className='font-semibold text-2xl mt-8 pb-5 border-b-4 border-slate-200'>Personal Information</div>
 
-                <div className='flex justify-between px-5 gap-5 mt-2'>
+                {/* password */}
+                <div className='flex justify-between gap-5 mt-2'>
                     <div className='flex gap-2 flex-col w-1/2'>
                         <label htmlFor="password">
                             Password
@@ -169,9 +173,10 @@ function RegisterPage() {
                         ) : <p className='text-lg text-red-500 font-thin invisible'  >password must be at least 6 characters</p>}
                     </div>
                 </div>
-                <div className='w-full text-center mt-20' >
-                    <button className='bg-red-400 px-5 py-4 rounded-md text-white' type="submit">
-                        Registration
+
+                <div className='w-full mt-4 mb-20' >
+                    <button className='bg-red-600 w-32 h-11 rounded-sm text-white' type="submit">
+                        Register
                     </button>
                 </div>
             </form>

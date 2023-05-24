@@ -7,8 +7,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Header from './Header';
-import Footer from './Footer';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 import { Link } from 'react-router-dom';
 import { useState } from "react";
 

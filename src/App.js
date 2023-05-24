@@ -3,10 +3,10 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
-import IndexPage from "./components/IndexPage";
-import RegisterPage from "./components/RegisterPage";
-import LoginPage from "./components/LoginPage";
-import ProductList from "./components/IndexPage";
+import IndexPage from "./pages/index/IndexPage";
+import RegisterPage from "./pages/register/RegisterPage";
+import LoginPage from "./pages/login/LoginPage";
+import ProductList from "./pages/index/IndexPage";
 
 function App() {
   return (
