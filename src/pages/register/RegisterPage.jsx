@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import Footer from '../../components/Footer'
 import Header from '../../components/Header'
-import { Field, useFormik } from "formik";
+import {  useFormik } from "formik";
 import * as Yup from "yup";
 import axios from 'axios';
-import { MenuItem, Select, TextField } from '@mui/material';
+import { MenuItem, TextField } from '@mui/material';
 
 
 
@@ -54,6 +54,7 @@ function RegisterPage() {
                 try {
                     const response = await axios.post('https://book-e-sell-node-api.vercel.app/api/user', values);
                     if (response.status === 200) {
+                        alert("User Created");
                       console.log('User Created');
                       action.resetForm();
                       window.location.replace('/login');

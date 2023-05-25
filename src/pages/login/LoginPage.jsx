@@ -30,7 +30,6 @@ function LoginPage() {
           const response = await axios.post('https://book-e-sell-node-api.vercel.app/api/user/login', values);
           if (response.status === 200) {
             console.log('Form submitted successfully!');
-
             action.resetForm();
             window.location.replace('/');
           } else {

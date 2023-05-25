@@ -28,7 +28,7 @@ function Products() {
 
 
 
-                        <div className='w-11/12 mx-auto  mt-6 mb-7  flex gap-3 justify-evenly'>
+                        <div className='w-8/12 mx-auto  mt-6 mb-7  flex gap-3 justify-evenly'>
                             {books.map(book=>(
                             <ProductCard base64image={book.base64image} name={book.name} category={book.category} description={book.description} price={book.price} />
                             ))}
