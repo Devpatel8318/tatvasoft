@@ -23,3 +23,16 @@ h2{
 input[type="text"] , input[type="password"],input[type="email"],input[type="select"]{
     @apply px-4 py-2;
 }
+
+#myselect{
+    @apply px-4 py-2 border border-gray-100;
+
+}
+
+.mw25{
+    max-width: 24%;
+}
+
+.hDev{
+    height: 200px;
+}

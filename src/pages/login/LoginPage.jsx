@@ -3,7 +3,9 @@ import Footer from '../../components/Footer'
 import Header from '../../components/Header'
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
+import axios from 'axios';
+// import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function LoginPage() {
@@ -12,7 +14,7 @@ function LoginPage() {
   const initialValues = {
     email: "",
     password: "",
-   
+
   };
   const { values, handleBlur, handleChange, handleSubmit, errors, touched } =
     useFormik({
@@ -23,26 +25,36 @@ function LoginPage() {
       }),
       validateOnChange: true,
       validateOnBlur: false,
-      onSubmit: (values, action) => {
-        console.log("values", values);
-        action.resetForm();
-        window.location.replace('/'); 
+      onSubmit: async (values, action) => {
+        try {
+          const response = await axios.post('https://book-e-sell-node-api.vercel.app/api/user/login', values);
+          if (response.status === 200) {
+            console.log('Form submitted successfully!');
+
+            action.resetForm();
+            window.location.replace('/');
+          } else {
+            
+            alert("Wrong credentials");
+            console.log('Unexpected status:', response.status);
+          }
+
+        } catch (error) {
+          
+          alert("Wrong credentials");
+          console.log('Error submitting form:', error);
+        }
       },
     });
 
   console.log(errors);
-
-
-
-
-
   return (
     <>
       <Header />
 
       <div className="p-12 w-full flex justify-center "> Home &nbsp; {">"} &nbsp; <span className='text-red-500'>Login</span></div>
       <div className='w-8/12 mx-auto text-center text-5xl mb-7'>
-          <span className='text-gray-700 font-semibold '>Login or Create an Account</span>
+        <span className='text-gray-700 font-semibold '>Login or Create an Account</span>
       </div>
 
 
@@ -52,20 +64,20 @@ function LoginPage() {
           <div className='font-semibold text-2xl pb-5 pt-12 border-b-4 border-slate-200'>New Customer</div>
           <div className='font-normal text-slate-500 text-lg py-5'>registration is free and easy </div>
           <div className='mb-40'>
-              <div className='pb-3'>{"\u25CF "}Faster checkout</div>
-              <div className='pb-3'>{"\u25CF "}Save multiple shipping addresses</div>
-              <div className='pb-3'>{"\u25CF "}View and track orders and more</div>
+            <div className='pb-3'>{"\u25CF "}Faster checkout</div>
+            <div className='pb-3'>{"\u25CF "}Save multiple shipping addresses</div>
+            <div className='pb-3'>{"\u25CF "}View and track orders and more</div>
           </div>
           <div className='w-full mt-5 mb-20' >
-              <button className='bg-red-500 px-3 py-4 text-lg rounded-sm text-white' type="submit">
-                Create an Account
-              </button>
-            </div>
+            <button className='bg-red-500 px-3 py-4 text-lg rounded-sm text-white' type="submit">
+              Create an Account
+            </button>
+          </div>
         </div>
-        
-        
+
+
         {/* right side exsisting customer */}
-        <div className='flex-1'> 
+        <div className='flex-1'>
           <form onSubmit={handleSubmit} className='' >
             <div className='font-semibold text-2xl pb-5 pt-12 border-b-4 border-slate-200'>Registered Customers</div>
             <div className='font-normal text-slate-500 text-lg py-5'>if you have an account with us, please log in. </div>
@@ -88,7 +100,7 @@ function LoginPage() {
                 />
                 {errors.email && touched.email ? (
                   <p className='text-lg text-red-500 font-thin' >{errors.email}</p>
-                ) :  <p className='text-lg text-red-500 font-thin invisible' >"email must be a valid email"</p>}
+                ) : <p className='text-lg text-red-500 font-thin invisible' >"email must be a valid email"</p>}
               </div>
             </div>
             <div className='flex justify-around gap-5 mb-4'>
@@ -122,7 +134,7 @@ function LoginPage() {
           </form>
         </div>
 
-     
+
       </div>
 
 
