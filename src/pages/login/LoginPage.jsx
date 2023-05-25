@@ -40,7 +40,7 @@ function LoginPage() {
     <>
       <Header />
 
-      <div className="p-12 w-full flex justify-center"> Home &nbsp; {">"} &nbsp; <span className='text-red-500'>Create an Account</span></div>
+      <div className="p-12 w-full flex justify-center "> Home &nbsp; {">"} &nbsp; <span className='text-red-500'>Login</span></div>
       <div className='w-8/12 mx-auto text-center text-5xl mb-7'>
           <span className='text-gray-700 font-semibold '>Login or Create an Account</span>
       </div>
@@ -57,8 +57,8 @@ function LoginPage() {
               <div className='pb-3'>{"\u25CF "}View and track orders and more</div>
           </div>
           <div className='w-full mt-5 mb-20' >
-              <button className='bg-red-600 w-32 h-11 rounded-sm text-white' type="submit">
-                Register
+              <button className='bg-red-500 px-3 py-4 text-lg rounded-sm text-white' type="submit">
+                Create an Account
               </button>
             </div>
         </div>
@@ -115,8 +115,8 @@ function LoginPage() {
             </div>
 
             <div className='w-full mt-8 mb-20' >
-              <button className='bg-red-600 w-32 h-11 rounded-sm text-white' type="submit">
-                Register
+              <button className='bg-red-500 w-32 h-11 rounded-sm text-white' type="submit">
+                Login
               </button>
             </div>
           </form>

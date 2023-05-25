@@ -45,11 +45,11 @@ function RegisterPage() {
             <div className='w-10/12 mx-auto text-center text-5xl mb-7'>
                 <span className='text-gray-700 font-semibold '>Login or Create an Account</span>
             </div>
-            
+
             <form onSubmit={handleSubmit} className='pt-12 w-8/12 mx-auto ' >
 
-            <div className='font-semibold text-2xl pb-5 border-b-4 border-slate-200'>Personal Information</div>
-            <div className='font-normal text-slate-500 text-lg py-5'>Please enter the following information to create your account </div>
+                <div className='font-semibold text-2xl pb-5 border-b-4 border-slate-200'>Personal Information</div>
+                <div className='font-normal text-slate-500 text-lg py-5'>Please enter the following information to create your account </div>
                 {/* first name last name */}
                 <div className='flex justify-between gap-5 mt-2'>
                     <div className='flex gap-2 flex-col w-1/2'>
@@ -78,7 +78,7 @@ function RegisterPage() {
                             Last Name
                         </label>
                         <input
-                           type='text'
+                            type='text'
                             autoComplete="off"
                             name="lname"
                             id="lname"
@@ -122,6 +122,7 @@ function RegisterPage() {
                             Roles
                         </label>
                         <select name="select" id="select" className="border pl-4 py-2">
+                            <option disabled selected value className='hidden'> -- select an option -- </option>
                             <option value="seller">seller</option>
                             <option value="buyer">buyer</option>
                         </select>
