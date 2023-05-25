@@ -85,6 +85,7 @@ export default function ProductList() {
             carbs: '',
             protein: '',
         });
+        setNextId(prev=> prev+1);
     };
 
 
