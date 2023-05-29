@@ -40,7 +40,7 @@ function LoginPage() {
     <>
       <Header />
 
-      <div className="p-12 w-full flex justify-center"> Home &nbsp; {">"} &nbsp; <span className='text-red-500'>Create an Account</span></div>
+      <div className="p-12 w-full flex justify-center"> Home &nbsp; {">"} &nbsp; <span className='text-red-500'>Login</span></div>
       <div className='w-8/12 mx-auto text-center text-5xl mb-7'>
           <span className='text-gray-700 font-semibold '>Login or Create an Account</span>
       </div>
