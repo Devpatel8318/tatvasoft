@@ -23,7 +23,7 @@ function LoginPage() {
         email: Yup.string().email().required("Please enter your email"),
         password: Yup.string().min(6).required("Please enter your password"),
       }),
-      validateOnChange: true,
+      validateOnChange: true, 
       validateOnBlur: false,
       onSubmit: async (values, action) => {
         try {
