@@ -3,11 +3,12 @@ import Footer from '../../components/Footer'
 import Header from '../../components/Header'
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
+import loginUser from './loginuser';
+import { redirect } from 'react-router-dom';
 
 
 function LoginPage() {
-
+ 
 
   const initialValues = {
     email: "",
@@ -25,6 +26,7 @@ function LoginPage() {
       validateOnBlur: false,
       onSubmit: (values, action) => {
         console.log("values", values);
+        loginUser(values);
         action.resetForm();
         window.location.replace('/'); 
       },
@@ -56,9 +58,11 @@ function LoginPage() {
               <div className='pb-3'>{"\u25CF "}Save multiple shipping addresses</div>
               <div className='pb-3'>{"\u25CF "}View and track orders and more</div>
           </div>
+
+{/* ................................................................................................................... */}
           <div className='w-full mt-5 mb-20' >
-              <button className='bg-red-600 w-32 h-11 rounded-sm text-white' type="submit">
-                Register
+              <button className='bg-red-600 px-5 h-11 rounded-sm text-white' onClick ={ ()=>{window.location.replace('/register'); console.log("onclick register new account ")}} >
+                Create an account
               </button>
             </div>
         </div>
@@ -116,7 +120,7 @@ function LoginPage() {
 
             <div className='w-full mt-8 mb-20' >
               <button className='bg-red-600 w-32 h-11 rounded-sm text-white' type="submit">
-                Register
+                Login
               </button>
             </div>
           </form>

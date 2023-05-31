@@ -11,12 +11,18 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import { Link } from 'react-router-dom';
 import { useState } from "react";
+import { UseUserContext } from '../../userContext';
+
+
+
 
 function createData(name, calories, fat, carbs, protein) {
     return { name, calories, fat, carbs, protein };
 }
 
 export default function ProductList() {
+
+    let userContext = UseUserContext();
 
     const [rows, setRows] = useState([createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
     createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
@@ -26,6 +32,12 @@ export default function ProductList() {
 
     return (
         <>
+            <div>
+               idd====  {userContext.userData.id}
+            </div>
+
+
+
             <Header />
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">

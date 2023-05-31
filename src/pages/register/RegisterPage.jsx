@@ -3,7 +3,7 @@ import Footer from '../../components/Footer'
 import Header from '../../components/Header'
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
+import createUser from './createuser';
 
 
 
@@ -15,6 +15,7 @@ function RegisterPage() {
         email: "",
         password: "",
         confirm_password: "",
+        role: "0",
     };
     const { values, handleBlur, handleChange, handleSubmit, errors, touched } =
         useFormik({
@@ -31,11 +32,13 @@ function RegisterPage() {
             validateOnChange: true,
             validateOnBlur: false,
             onSubmit: (values, action) => {
-                console.log("values", values);
+                console.log("values --------- ", values);
                 action.resetForm();
                 window.location.replace('/');
+                createUser(values);
             },
         });
+
 
     console.log(errors);
     return (
@@ -117,13 +120,14 @@ function RegisterPage() {
                         ) : <p className='text-lg text-red-500 font-thin invisible' >email must be a valid email</p>}
                     </div>
 
+
                     <div className='flex gap-2 flex-col w-1/2'>
                         <label htmlFor="email" >
                             Roles
                         </label>
-                        <select name="select" id="select" className="border pl-4 py-2">
-                            <option value="seller">seller</option>
-                            <option value="buyer">buyer</option>
+                        <select value={values.role}  name="role" id="select" onChange={handleChange} onBlur={handleBlur} className="border pl-4 py-2">
+                            <option  value="0" label="seller">seller</option>
+                            <option  value="1"  label="buyer">buyer</option>
                         </select>
                     </div>
 
@@ -175,7 +179,7 @@ function RegisterPage() {
                 </div>
 
                 <div className='w-full mt-4 mb-20' >
-                    <button className='bg-red-600 w-32 h-11 rounded-sm text-white' type="submit">
+                    <button className='bg-red-600 w-32 h-11 rounded-sm text-white' type="submit" >
                         Register
                     </button>
                 </div>
