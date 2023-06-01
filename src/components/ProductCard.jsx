@@ -1,6 +1,20 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
+import { CartContext } from '../context/CartContext';
 
-function ProductCard({base64image,name,category,description,price}) {
+function ProductCard({ base64image, name, category, description, price }) {
+
+    const { cartItems, setCartItems } = useContext(CartContext);
+
+    function handleAddToCart(name, price) {
+        console.log("clicked");
+        setCartItems((prev) => [...prev, { name, price }]);
+    }
+
+    useEffect(() => {
+        console.log(cartItems);
+    }, [cartItems])
+
+
     return (
         <card className="border mw25 w-full rounded-lg">
             <div className='rounded-xl overflow-hidden w-full'>
@@ -12,7 +26,7 @@ function ProductCard({base64image,name,category,description,price}) {
                     <div className='text-gray-400'>{category}</div>
                     <div className='text-gray-800 truncate overflow-hidden line-clamp-2'>{description}</div>
                     <div className='mt-7 text-gray-400 text-xl'>MRP {price}</div>
-                    <button className='bg-red-500 w-full rounded-md text-white mt-2 text-sm px-2 py-2'>ADD TO CART</button>
+                    <button className='bg-red-500 w-full rounded-md text-white mt-2 text-sm px-2 py-2' onClick={() => handleAddToCart(name, price)} >ADD TO CART</button>
                 </div>
             </div>
         </card>

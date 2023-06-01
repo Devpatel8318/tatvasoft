@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Footer from '../../components/Footer'
 import Header from '../../components/Header'
 import { useFormik } from "formik";
@@ -6,16 +6,24 @@ import * as Yup from "yup";
 import axios from 'axios';
 // import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { UserContext } from '../../context/UserContext';
 
 
 function LoginPage() {
 
+  const user = window.localStorage.getItem('user');
+
+  if (user) {
+    console.log(user);
+    window.location.replace('/products');
+  }
 
   const initialValues = {
     email: "",
     password: "",
 
   };
+
   const { values, handleBlur, handleChange, handleSubmit, errors, touched } =
     useFormik({
       initialValues,
@@ -23,23 +31,24 @@ function LoginPage() {
         email: Yup.string().email().required("Please enter your email"),
         password: Yup.string().min(6).required("Please enter your password"),
       }),
-      validateOnChange: true, 
+      validateOnChange: true,
       validateOnBlur: false,
       onSubmit: async (values, action) => {
         try {
           const response = await axios.post('https://book-e-sell-node-api.vercel.app/api/user/login', values);
           if (response.status === 200) {
             console.log('Form submitted successfully!');
+            window.localStorage.setItem("user", values.email);
             action.resetForm();
-            window.location.replace('/');
+            window.location.replace('/products');
           } else {
-            
+
             alert("Wrong credentials");
             console.log('Unexpected status:', response.status);
           }
 
         } catch (error) {
-          
+
           alert("Wrong credentials");
           console.log('Error submitting form:', error);
         }
