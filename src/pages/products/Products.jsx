@@ -1,25 +1,44 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import axios from 'axios'
-import ProductCard from '../../components/ProductCard';
 import { CartContext } from '../../context/CartContext';
 import { UserContext } from '../../context/UserContext';
+import ReactPaginate from "react-paginate";
 
 function Products() {
 
     const [books, setBooks] = useState([]);
+    const [pageCount, setPageCount] = useState(1);
+    const currentPage = useRef();
+    const [totalbooks, setTotalBooks] = useState([]);
 
-    const {user} = useContext(UserContext);
+    const { user } = useContext(UserContext);
     if (!user) {
         window.location.replace('/login');
     }
 
     useEffect(() => {
-        axios.get('https://book-e-sell-node-api.vercel.app/api/book/all').then(res => {
-            setBooks(res.data.result);
-        });
-    }, [])
+        currentPage.current = 1;
+        getPaginatedUsers();
+    }, []);
+
+    function handlePageClick(e) {
+        currentPage.current = e.selected + 1;
+        getPaginatedUsers();
+    }
+
+    function getPaginatedUsers() {
+        axios
+            .get(
+                `https://book-e-sell-node-api.vercel.app/api/book?pageSize=4&pageIndex=${currentPage.current}`
+            )
+            .then((res) => {
+                setPageCount(res.data.result.totalPages);
+                setBooks(res.data.result.items);
+                setTotalBooks(res.data.result.totalItems);
+            });
+    }
 
     const { cartItems, setCartItems } = useContext(CartContext);
 
@@ -41,8 +60,9 @@ function Products() {
                     </div>
 
                     <div className="container mx-auto mb-10">
+                    <h2 className='mx-auto text-center '>Total Items : {totalbooks}</h2>
 
-                        <div className="grid sm:px-2 md:px-10 lg:px-30 px-2 grid-cols-2 mt-8 gap-x-2 gap-y-8 sm:gap-x-4 sm:gap-y-8 md:gap-x-6 md:gap-y-8 md:grid-cols-4 lg:grid-cols-5">
+                        <div className="grid sm:px-2 md:px-10 lg:px-30 px-2 grid-cols-2 mt-8 gap-x-2 gap-y-8 sm:gap-x-4 sm:gap-y-8 md:gap-x-6 md:gap-y-8 md:grid-cols-3 lg:grid-cols-4">
 
                             {books.length > 0 && books.map(book => (
                                 <div key={book.price} className='border rounded-2xl border-gray-300 ' >
@@ -86,13 +106,29 @@ function Products() {
                     )} */}
 
 
-
-
-
-
+                    <ReactPaginate
+                        breakLabel="..."
+                        nextLabel=">"
+                        onPageChange={handlePageClick}
+                        pageRangeDisplayed={2}
+                        pageCount={pageCount}
+                        previousLabel="< "
+                        renderOnZeroPageCount={null}
+                        containerClassName="pagination justify-content-center pagination-lg"
+                        pageClassName=""
+                        pageLinkClassName="rounded-full p-4 h-2 w-2 flex items-center justify-center"
+                        previousClassName="rounded-full p-4 h-2 w-2 flex items-center justify-center"
+                        previousLinkClassName="rounded-full p-4 h-2 w-2 flex items-center justify-center"
+                        nextClassName="rounded-full p-4 h-2 w-2 flex items-center justify-center"
+                        nextLinkClassName="rounded-full p-4 h-2 w-2 flex items-center justify-center"
+                        activeClassName="text-white bg-rose-500 rounded-full p-4 h-2 w-2 flex items-center justify-center"
+                        className=' flex mb-6 items-center justify-center gap-5 p-4'
+                    />
 
 
                 </div>
+
+
                 <Footer />
             </div>
 
