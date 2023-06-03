@@ -4,19 +4,16 @@ import Header from '../../components/Header'
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from 'axios';
-// import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { UserContext } from '../../context/UserContext';
+import { Navigate } from 'react-router-dom';
 
 
 function LoginPage() {
 
-  const user = window.localStorage.getItem('user');
+  const { user } = useContext(UserContext);
 
-  if (user) {
-    console.log(user);
-    window.location.replace('/products');
-  }
+
 
   const initialValues = {
     email: "",
@@ -54,6 +51,11 @@ function LoginPage() {
         }
       },
     });
+
+  if (user && user!== null) {
+    console.log(user);
+    return <Navigate to={'/products'} />
+  }
 
   console.log(errors);
   return (

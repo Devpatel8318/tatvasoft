@@ -1,22 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import SearchBox from './SearchBox'
 import { CartContext } from '../context/CartContext';
 import { UserContext } from '../context/UserContext';
 
 function Header() {
-  const { cartItems, setCartItems } = useContext(CartContext);
+  const { cartItems } = useContext(CartContext);
 
   const { setUser, user } = useContext(UserContext);
 
-  useEffect(() => {
-    const userDetail = window.localStorage.getItem('user');
-    if (user) {
-      setUser(userDetail);
-    } else {
-      setUser(null);
-    }
-  })
+
 
   return (
     <>

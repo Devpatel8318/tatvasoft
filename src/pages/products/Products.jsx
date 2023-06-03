@@ -3,8 +3,9 @@ import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import axios from 'axios'
 import { CartContext } from '../../context/CartContext';
-import { UserContext } from '../../context/UserContext';
 import ReactPaginate from "react-paginate";
+import { UserContext } from '../../context/UserContext';
+import { Navigate } from 'react-router-dom';
 
 function Products() {
 
@@ -14,9 +15,6 @@ function Products() {
     const [totalbooks, setTotalBooks] = useState([]);
 
     const { user } = useContext(UserContext);
-    if (!user) {
-        window.location.replace('/login');
-    }
 
     useEffect(() => {
         currentPage.current = 1;
@@ -40,13 +38,17 @@ function Products() {
             });
     }
 
-    const { cartItems, setCartItems } = useContext(CartContext);
+    const { setCartItems } = useContext(CartContext);
 
     function handleAddToCart(name, price) {
         console.log("clicked");
         setCartItems((prev) => [...prev, { name, price }]);
     }
 
+    if (!user ||  user=== null) {
+        console.log(user);
+        return <Navigate to={'/login'} />
+      }
 
     return (
         <>
@@ -60,7 +62,7 @@ function Products() {
                     </div>
 
                     <div className="container mx-auto mb-10">
-                    <h2 className='mx-auto text-center '>Total Items : {totalbooks}</h2>
+                        <h2 className='mx-auto text-center '>Total Items : {totalbooks}</h2>
 
                         <div className="grid sm:px-2 md:px-10 lg:px-30 px-2 grid-cols-2 mt-8 gap-x-2 gap-y-8 sm:gap-x-4 sm:gap-y-8 md:gap-x-6 md:gap-y-8 md:grid-cols-3 lg:grid-cols-4">
 
@@ -92,19 +94,6 @@ function Products() {
                         </div>
 
                     </div>
-
-                    {/* 
-                    {books && books.length > 0 && (
-
-
-
-                        <div className='w-8/12 mx-auto  mt-6 mb-7  flex gap-3 justify-evenly'>
-                            {books.map(book=>(
-                            <ProductCard base64image={book.base64image} name={book.name} category={book.category} description={book.description} price={book.price} />
-                            ))}
-                        </div>
-                    )} */}
-
 
                     <ReactPaginate
                         breakLabel="..."
