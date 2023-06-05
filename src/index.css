@@ -1,25 +1,43 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-.link{
-    color:red
+
+.link {
+    color: red
 }
 
-h2{
+h2 {
     color: gray;
     margin-top: 20px;
 }
 
-*{
+* {
     padding: 0px;
     margin: 0px;
 }
-.myLink{
+
+.myLink {
     margin: 200px;
     color: forestgreen;
     font-size: 2.5em;
 }
 
-input[type="text"] , input[type="password"],input[type="email"],input[type="select"]{
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="select"] {
     @apply px-4 py-2;
+}
+
+#myselect {
+    @apply px-4 py-2 border border-gray-100;
+
+}
+
+.mw25 {
+    max-width: 24%;
+}
+
+.hDev {
+    height: 200px;
 }
