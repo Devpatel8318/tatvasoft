@@ -1,11 +1,109 @@
-import { createContext,useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { UserContext } from "./UserContext";
+import axios from "axios";
 export const CartContext = createContext({});
 
 export function CartContextProvider({ children }) {
-    const [cartItems, setCartItems] = useState([]);
+    const [numberOfItems, setNumberOfItems] = useState(0);
+    const [details, setDetails] = useState([]);
+    const [total, setTotal] = useState(0);
+    const { user } = useContext(UserContext);
+
+    useEffect(() => {
+        console.log("use Effect Called");
+        // console.log(user);
+        if (user) {
+            updateCart();
+        }
+    }, [user]);
+
+    function updateCart() {
+        axios.get("https://book-e-sell-node-api.vercel.app/api/cart?userId=" + user)
+            .then((res) => {
+                console.log(res.data.result);
+                const cartsArray = res.data.result;
+                setNumberOfItems(cartsArray.length);
+                setDetails(res.data.result);
+                console.log(details);
+                // let temp = 0;
+                // if (details.length > 0) {
+                //     for (let i = 0; i < details.length; i++) {
+                //         temp += details[i].quantity * details[i].book.price;
+                //     }
+                //     setTotal(temp);
+                // }
+            });
+    }
+    useEffect(() => {
+        let temp = 0;
+        if (details.length > 0) {
+            for (let i = 0; i < details.length; i++) {
+                temp += details[i].quantity * details[i].book.price;
+            }
+            setTotal(temp);
+        }
+        // console.log(total);
+    }, [details])
+
+    async function addToCart(id) {
+
+        let isBookExist = 0;
+
+
+        console.log(details);
+        for (let i = 0; i < details.length; i++) {
+            if (details[i].bookId === id) {
+                isBookExist = 1;
+                break;
+            }
+        }
+
+        if (isBookExist === 0) {
+            const data = {
+                "bookId": id,
+                "userId": user,
+                "quantity": 1
+            }
+            console.log(data);
+            await axios.post(`https://book-e-sell-node-api.vercel.app/api/cart`, data);
+            updateCart();
+        }
+    }
+
+    async function increaseAmount(cartid, bookid, quantity) {
+        const data = {
+            "id": cartid,
+            "bookId": bookid,
+            "userId": user,
+            "quantity": quantity + 1,
+        }
+        console.log(data);
+        await axios.put(`https://book-e-sell-node-api.vercel.app/api/cart`, data);
+        updateCart();
+    }
+    async function decreaseAmount(cartid, bookid, quantity) {
+        if (quantity > 1) {
+
+            const data = {
+                "id": cartid,
+                "bookId": bookid,
+                "userId": user,
+                "quantity": quantity - 1,
+            }
+            console.log(data);
+            await axios.put(`https://book-e-sell-node-api.vercel.app/api/cart`, data);
+            updateCart();
+        }
+    }
+
+
+    async function removeBook(cartId) {
+        await axios.delete(`https://book-e-sell-node-api.vercel.app/api/cart?id=${cartId}`);
+        updateCart();
+    }
 
     return (<CartContext.Provider
-        value={{ cartItems, setCartItems }}>
+        value={{ numberOfItems, setNumberOfItems, total, addToCart, increaseAmount, details, removeBook, decreaseAmount }}>
         {children}
     </CartContext.Provider>)
 } 

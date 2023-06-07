@@ -3,12 +3,11 @@ export const UserContext = createContext({});
 
 export function UserContextProvider({ children }) {
 
-    const [user, setUser] = useState([]);
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
         const userData = window.localStorage.getItem('user');
         setUser(userData);
-        console.log(userData);
     });
 
     return (<UserContext.Provider

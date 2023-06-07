@@ -35,7 +35,7 @@ function LoginPage() {
           const response = await axios.post('https://book-e-sell-node-api.vercel.app/api/user/login', values);
           if (response.status === 200) {
             console.log('Form submitted successfully!');
-            window.localStorage.setItem("user", values.email);
+            window.localStorage.setItem("user", response.data.result.id);
             action.resetForm();
             window.location.replace('/products');
           } else {
@@ -53,11 +53,9 @@ function LoginPage() {
     });
 
   if (user && user!== null) {
-    console.log(user);
     return <Navigate to={'/products'} />
   }
 
-  console.log(errors);
   return (
     <>
       <Header />
