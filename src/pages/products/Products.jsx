@@ -15,6 +15,7 @@ function Products() {
     const [totalbooks, setTotalBooks] = useState([]);
 
     const { user } = useContext(UserContext);
+    const { addToCart } = useContext(CartContext);
 
     useEffect(() => {
         currentPage.current = 1;
@@ -38,17 +39,16 @@ function Products() {
             });
     }
 
-    const { setCartItems } = useContext(CartContext);
+    const { setNumberOfItems } = useContext(CartContext);
 
-    function handleAddToCart(name, price) {
-        console.log("clicked");
-        setCartItems((prev) => [...prev, { name, price }]);
+    function handleAddToCart(id) {
+        // console.log("clicked");
+        addToCart(id);
     }
 
-    if (!user ||  user=== null) {
-        console.log(user);
+    if (!user || user === null) {
         return <Navigate to={'/login'} />
-      }
+    }
 
     return (
         <>
@@ -85,7 +85,7 @@ function Products() {
                                         <div className='mb-2'>
                                             <div className=' mt-auto'>
                                                 <div className='mt-7 text-gray-400 text-xl'>MRP {book.price}</div>
-                                                <button className='bg-red-500 w-full rounded-md text-white mt-auto text-sm px-2 py-2' onClick={() => handleAddToCart(book.name, book.price)}>ADD TO CART</button>
+                                                <button className='bg-red-500 w-full rounded-md text-white mt-auto text-sm px-2 py-2' onClick={() => handleAddToCart(book.id)}>ADD TO CART</button>
                                             </div>
                                         </div>
                                     </div>

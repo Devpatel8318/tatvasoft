@@ -8,11 +8,11 @@ function SearchBox() {
     const [input, setinput] = useState("");
     const [results, setResults] = useState([]);
     const [openSearchResult, setOpenSearchResult] = useState(false);
-    const { cartItems, setCartItems } = useContext(CartContext);
+    const {addToCart } = useContext(CartContext);
 
-    function handleAddToCart(name, price) {
-        console.log("clicked");
-        setCartItems((prev) => [...prev, { name, price }]);
+    function handleAddToCart(id) {
+        // console.log("clicked");
+        addToCart(id);
     }
 
     useEffect(() => {
@@ -89,7 +89,7 @@ function SearchBox() {
                                                     <div > {result.name} </div>
                                                     <div className="flex flex-col text-sm">
                                                         <div>{result.price}</div>
-                                                        <button type="submit" className='text-red-500' onClick={() => handleAddToCart(result.name, result.price)} >Add to cart</button>
+                                                        <button type="submit" className='text-red-500' onClick={() => handleAddToCart(result.id)} >Add to cart</button>
                                                     </div>
                                                 </div>
                                             );
