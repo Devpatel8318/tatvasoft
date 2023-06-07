@@ -4,7 +4,7 @@ import Footer from '../../components/Footer';
 import { CartContext } from '../../context/CartContext';
 
 function Cart() {
-    const { numberOfItems, total, details,removeBook,increaseAmount,decreaseAmount } = useContext(CartContext);
+    const { numberOfItems, total, details, removeBook, increaseAmount, decreaseAmount, placeOrder } = useContext(CartContext);
     return (
         <>
             <div className='flex flex-col h-screen justify-between'>
@@ -37,25 +37,30 @@ function Cart() {
                                                 {element.book.name}
                                             </div>
                                             <div className='mt-4 font-semibold flex'>
-                                               <button onClick={()=>decreaseAmount(element.id,element.book.id,element.quantity)} className='aspect-square w-7 text-white bg-rose-500  flex justify-center items-center'>-</button>
-                                               <div className='aspect-square w-7  flex justify-center items-center'>{element.quantity}</div>
-                                               <button onClick={()=>increaseAmount(element.id,element.book.id,element.quantity)} className='aspect-square w-7 text-white bg-rose-500  flex justify-center items-center'>+</button>
+                                                <button onClick={() => decreaseAmount(element.id, element.book.id, element.quantity)} className='aspect-square w-7 text-white bg-rose-500  flex justify-center items-center'>-</button>
+                                                <div className='aspect-square w-7  flex justify-center items-center'>{element.quantity}</div>
+                                                <button onClick={() => increaseAmount(element.id, element.book.id, element.quantity)} className='aspect-square w-7 text-white bg-rose-500  flex justify-center items-center'>+</button>
                                             </div>
                                         </div>
                                         <div className=''>
                                             <div className='font-semibold'>
                                                 MRP ₹{element.book.price}
                                             </div>
-                                            <button onClick={()=>removeBook(element.id)} className='mt-4  text-md text-rose-500'>
+                                            <button onClick={() => removeBook(element.id)} className='mt-4  text-md text-rose-500'>
                                                 remove
                                             </button>
                                             {/* {element.quantity} */}
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
                         ))}
+                    </div>
+
+                    <div className='w-4/12 text-xl mx-auto mt-6 mb-7' >
+                        <button onClick={()=> placeOrder()} className='bg-rose-500 rounded-sm text-white px-5 py-3 m-3'>
+                            Place Order
+                        </button>
                     </div>
 
                 </div>

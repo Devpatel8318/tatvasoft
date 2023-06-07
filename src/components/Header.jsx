@@ -5,7 +5,7 @@ import { CartContext } from '../context/CartContext';
 import { UserContext } from '../context/UserContext';
 
 function Header() {
-  const { numberOfItems,total} = useContext(CartContext);
+  const { numberOfItems} = useContext(CartContext);
 
   const { setUser, user } = useContext(UserContext);
 

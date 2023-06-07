@@ -35,6 +35,10 @@ export function CartContextProvider({ children }) {
             });
     }
     useEffect(() => {
+        updateTotal();
+    }, [details])
+
+    function updateTotal() {
         let temp = 0;
         if (details.length > 0) {
             for (let i = 0; i < details.length; i++) {
@@ -42,8 +46,7 @@ export function CartContextProvider({ children }) {
             }
             setTotal(temp);
         }
-        // console.log(total);
-    }, [details])
+    }
 
     async function addToCart(id) {
 
@@ -102,8 +105,28 @@ export function CartContextProvider({ children }) {
         updateCart();
     }
 
+    async function placeOrder() {
+        if (numberOfItems > 0) {
+
+            let cartIds = [];
+            for (let i = 0; i < details.length; i++) {
+                cartIds.push(details[i].id);
+            }
+
+            const data = {
+                userId: user,
+                cartIds,
+            }
+            await axios.post(`https://book-e-sell-node-api.vercel.app/api/order`, data);
+            setTotal(0);
+            updateCart();
+        } else {
+            alert("Cart Empty");
+        }
+
+    }
     return (<CartContext.Provider
-        value={{ numberOfItems, setNumberOfItems, total, addToCart, increaseAmount, details, removeBook, decreaseAmount }}>
+        value={{ numberOfItems, setNumberOfItems, total, addToCart, increaseAmount, details, removeBook, decreaseAmount, placeOrder }}>
         {children}
     </CartContext.Provider>)
 } 

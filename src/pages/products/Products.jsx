@@ -39,7 +39,6 @@ function Products() {
             });
     }
 
-    const { setNumberOfItems } = useContext(CartContext);
 
     function handleAddToCart(id) {
         // console.log("clicked");
