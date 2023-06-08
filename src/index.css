@@ -24,7 +24,9 @@ h2 {
 
 input[type="text"],
 input[type="password"],
+input[type="number"],
 input[type="email"],
+select,
 input[type="select"] {
     @apply px-4 py-2;
 }

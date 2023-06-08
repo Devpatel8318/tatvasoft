@@ -88,7 +88,7 @@ function RegisterPage() {
                 {/* first name last name */}
                 <div className='flex justify-between gap-5 mt-2'>
                     <div className='flex gap-2 flex-col w-1/2'>
-                        <label htmlFor="name" >
+                        <label htmlFor="fname" >
                             First Name
                         </label>
                         <input
@@ -109,7 +109,7 @@ function RegisterPage() {
                     </div>
 
                     <div className='flex gap-2 flex-col  w-1/2' >
-                        <label htmlFor="name" >
+                        <label htmlFor="lname" >
                             Last Name
                         </label>
                         <input
@@ -132,10 +132,6 @@ function RegisterPage() {
 
                 {/* email */}
                 <div className='flex justify-between  gap-5 mt-2'>
-
-
-
-
                     <div className='flex gap-2 flex-col w-1/2' >
                         <label htmlFor="email" >
                             Email
@@ -186,8 +182,6 @@ function RegisterPage() {
                 </div>
 
                 <div className='font-semibold text-2xl mt-8 pb-5 border-b-4 border-slate-200'>Personal Information</div>
-
-                {/* password */}
                 <div className='flex justify-between gap-5 mt-2'>
                     <div className='flex gap-2 flex-col w-1/2'>
                         <label htmlFor="password">

@@ -10,7 +10,7 @@ export function CartContextProvider({ children }) {
     const { user } = useContext(UserContext);
 
     useEffect(() => {
-        console.log("use Effect Called");
+        // console.log("use Effect Called");
         // console.log(user);
         if (user) {
             updateCart();
@@ -20,11 +20,11 @@ export function CartContextProvider({ children }) {
     function updateCart() {
         axios.get("https://book-e-sell-node-api.vercel.app/api/cart?userId=" + user)
             .then((res) => {
-                console.log(res.data.result);
+                // console.log(res.data.result);
                 const cartsArray = res.data.result;
                 setNumberOfItems(cartsArray.length);
                 setDetails(res.data.result);
-                console.log(details);
+                // console.log(details);
                 // let temp = 0;
                 // if (details.length > 0) {
                 //     for (let i = 0; i < details.length; i++) {
@@ -67,7 +67,7 @@ export function CartContextProvider({ children }) {
                 "userId": user,
                 "quantity": 1
             }
-            console.log(data);
+            // console.log(data);
             await axios.post(`https://book-e-sell-node-api.vercel.app/api/cart`, data);
             updateCart();
         }
@@ -80,7 +80,7 @@ export function CartContextProvider({ children }) {
             "userId": user,
             "quantity": quantity + 1,
         }
-        console.log(data);
+        // console.log(data);
         await axios.put(`https://book-e-sell-node-api.vercel.app/api/cart`, data);
         updateCart();
     }
@@ -93,7 +93,7 @@ export function CartContextProvider({ children }) {
                 "userId": user,
                 "quantity": quantity - 1,
             }
-            console.log(data);
+            // console.log(data);
             await axios.put(`https://book-e-sell-node-api.vercel.app/api/cart`, data);
             updateCart();
         }
