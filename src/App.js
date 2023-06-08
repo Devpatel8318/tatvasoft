@@ -19,6 +19,7 @@ import AddCategory from "./pages/category/AddCategory";
 import EditCategory from "./pages/category/EditCategory";
 import Books from "./pages/Books";
 import EditBook from "./pages/EditBook";
+import Profile from "./pages/profile/Profile";
 
 function App() {
   const theme = {
@@ -65,6 +66,7 @@ function App() {
               <Route path="/books" element={<Books />} />
               <Route path="/books/addbook" element={<AddBook />} />
               <Route path="/books/:id" element={<EditBook />} />
+              <Route path="/profile" element={<Profile />} />
             </Routes>
           </BrowserRouter>
         </CartContextProvider>

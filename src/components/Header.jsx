@@ -30,7 +30,7 @@ function Header() {
               <span>Books  </span>
             </Link>
             <Link to={'/profile'}>
-              <span>Update Profile  </span>
+              <span>update Profile  </span>
             </Link>
             {!user && (
               <>
