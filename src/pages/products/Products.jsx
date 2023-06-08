@@ -13,6 +13,8 @@ function Products() {
     const [pageCount, setPageCount] = useState(1);
     const currentPage = useRef();
     const [totalbooks, setTotalBooks] = useState([]);
+    const [keyword, setKeyword] = useState("");
+    const [sortBy, setSortBy] = useState();
 
     const { user } = useContext(UserContext);
     const { addToCart } = useContext(CartContext);
@@ -30,7 +32,7 @@ function Products() {
     function getPaginatedUsers() {
         axios
             .get(
-                `https://book-e-sell-node-api.vercel.app/api/book?pageSize=4&pageIndex=${currentPage.current}`
+                `https://book-e-sell-node-api.vercel.app/api/book?pageSize=7&pageIndex=${currentPage.current}`
             )
             .then((res) => {
                 setPageCount(res.data.result.totalPages);
@@ -45,9 +47,48 @@ function Products() {
         addToCart(id);
     }
 
+    useEffect(() => {
+        if (keyword) {
+            const timer = setTimeout(() => {
+                axios
+                    .get(
+                        `https://book-e-sell-node-api.vercel.app/api/book?pageSize=7&pageIndex=${currentPage.current}&keyword=${keyword}`
+                    )
+                    .then((res) => {
+                        console.log(res.data.result);
+                        setPageCount(res.data.result.totalPages);
+                        setBooks(res.data.result.items);
+                        setTotalBooks(res.data.result.totalItems);
+                    });
+            }, 300);
+            return () => clearTimeout(timer);
+        } else {
+            getPaginatedUsers();
+        }
+    }, [keyword]);
+
+    const sortBooks = (e) => {
+        setSortBy(e.target.value);
+
+        const bookList = [...books];
+
+        bookList.sort((a, b) => {
+            if (a.name < b.name) {
+                return e.target.value === "a-z" ? -1 : 1;
+            }
+            if (a.name > b.name) {
+                return e.target.value === "a-z" ? 1 : -1;
+            }
+            return 0;
+        });
+        setBooks(bookList);
+    };
+
     if (!user || user === null) {
         return <Navigate to={'/login'} />
     }
+
+
 
     return (
         <>
@@ -60,13 +101,46 @@ function Products() {
                         </span>
                     </div>
 
-                    <div className="container mx-auto mb-10">
-                        <h2 className='mx-auto text-center '>Total Items : {totalbooks}</h2>
+                    <div className="container mx-auto w-9/12 mb-10">
+                        <div className='flex justify-between  sm:px-3  md:px-11 lg:px-31'>
 
-                        <div className="grid sm:px-2 md:px-10 lg:px-30 px-2 grid-cols-2 mt-8 gap-x-2 gap-y-8 sm:gap-x-4 sm:gap-y-8 md:gap-x-6 md:gap-y-8 md:grid-cols-3 lg:grid-cols-4">
+                            <div className='w-1/2'>
+                                <div className='mr-auto text-2xl'>Total Items : {totalbooks}</div>
+                            </div>
+
+                            <div className='w-1/2 flex justify-between  items-center'>
+
+                                <div className=''>
+                                    <input
+                                        type="text"
+                                        name="search"
+                                        autoComplete="off"
+                                        className='border'
+                                        placeholder="search book"
+                                        onChange={(e) => {
+                                            setKeyword(e.target.value);
+                                        }}
+                                    />
+                                </div>
+
+                                <div className='flex justify-center items-center  w-1/2'>
+                                    <span className='text-gray-600'> Sort&nbsp;By:</span>
+                                    <select onChange={sortBooks} value={sortBy} className='border ml-1 w-full ' defaultValue={'a-z'} >
+                                        <option disabled></option>
+                                        <option value='a-z'>A-Z</option>
+                                        <option disabled></option>
+                                        <option value='z-a'>Z-A</option>
+                                        <option disabled></option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div className="grid sm:px-2  md:px-10 lg:px-30 px-2 grid-cols-2 mt-8 gap-x-2 gap-y-8 sm:gap-x-4 sm:gap-y-8 md:gap-x-6 md:gap-y-8 md:grid-cols-3 lg:grid-cols-4">
 
                             {books.length > 0 && books.map(book => (
-                                <div key={book.price} className='border rounded-2xl border-gray-300 ' >
+                                <div key={book.id} className='border rounded-2xl border-gray-300 ' >
 
                                     <div className="flex mb-2 bg-gray-500 rounded-t-2xl  h-1/2 w-full">
                                         <img className="object-cover w-full rounded-t-2xl aspect-square" src={book.base64image} alt="" />

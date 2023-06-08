@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useContext } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer"
@@ -17,6 +17,7 @@ function Categories({ swal }) {
   const currentPage = useRef();
   const [rows, setRows] = useState([5]);
   const [value, setValue] = useState(0);
+  const [keyword, setKeyword] = useState("");
 
   const rerender = () => {
     setValue(1 - value);
@@ -82,6 +83,26 @@ function Categories({ swal }) {
     })
   }
 
+  useEffect(() => {
+    if (keyword) {
+      const timer = setTimeout(() => {
+        axios
+          .get(
+            `https://book-e-sell-node-api.vercel.app/api/category?pageSize=3&pageIndex=${currentPage.current}&keyword=${keyword}`
+          )
+          .then((res) => {
+            console.log(res.data.result.items);
+            setPageCount(res.data.result.totalPages);
+            setCategories(res.data.result.items);
+          });
+      }, 300);
+      return () => clearTimeout(timer);
+    } else {
+      getPaginatedUsers();
+    }
+  }, [keyword]);
+
+
   return (
     <>
       <div className='flex flex-col h-screen justify-between'>
@@ -91,10 +112,27 @@ function Categories({ swal }) {
             <span className='text-gray-700 font-semibold'>Categories
             </span>
           </div>
-          <div className='w-8/12 mx-auto text-right text-md mt-20 mb-8'>
-            <Link to={'/categories/addcategory'} className='bg-rose-500 text-white px-4 py-3'>Add Category
-            </Link>
+
+          <div className="flex justify-end gap-2 w-8/12 mx-auto items-center">
+            <div className='border'>
+              <input
+                type="text"
+                name="search"
+                autoComplete="off"
+                placeholder="Search.."
+                className=""
+                onChange={(e) => {
+                  setKeyword(e.target.value);
+                }}
+              />
+            </div>
+            
+            <div className=''>
+              <Link to={'/categories/addcategory'} className='bg-rose-500 text-white px-4 py-3'>Add Category
+              </Link>
+            </div>
           </div>
+
           <Wrapper>
             <div className="container w-8/12 mx-auto">
               <table className="w-full">

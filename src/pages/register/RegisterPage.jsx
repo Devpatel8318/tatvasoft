@@ -67,8 +67,6 @@ function RegisterPage() {
                     alert("Error creating user");
                     console.log('Error submitting form:', error);
                   }
-                // action.resetForm();
-                // window.location.replace('/login');
             },
         });
 

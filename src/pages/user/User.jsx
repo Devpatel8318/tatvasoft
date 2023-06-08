@@ -18,6 +18,7 @@ function User({ swal }) {
   const currentPage = useRef();
   const [rows, setRows] = useState([5]);
   const [value, setValue] = useState(0);
+  const [keyword, setKeyword] = useState("");
 
   const rerender = () => {
     currentPage.current = 2;
@@ -61,6 +62,24 @@ function User({ swal }) {
         setUsers(res.data.result.items);
       });
   }
+  useEffect(() => {
+    if (keyword) {
+      const timer = setTimeout(() => {
+        axios
+          .get(
+            `https://book-e-sell-node-api.vercel.app/api/user?pageSize=3&pageIndex=${currentPage.current}&keyword=${keyword}`
+          )
+          .then((res) => {
+            setPageCount(res.data.result.totalPages);
+            setUsers(res.data.result.items);
+            // setTotalBooks(res.data.result.totalItems);
+          });
+      }, 300);
+      return () => clearTimeout(timer);
+    } else {
+      getPaginatedUsers();
+    }
+  }, [keyword]);
 
   async function deleteUser(id) {
     swal.fire({
@@ -88,10 +107,26 @@ function User({ swal }) {
       <div className='flex flex-col h-screen justify-between'>
         <div>
           <Header />
-          <div className='w-8/12 mx-auto text-center text-4xl mt-6 mb-16'>
+          <div className='w-8/12 mx-auto text-center text-4xl mt-6 mb-4'>
             <span className='text-gray-700 font-semibold'>User
             </span>
           </div>
+
+
+          <div className='w-8/12 mx-auto  mt-6 mb-8'>
+            <input
+              type="text"
+              name="search"
+              autoComplete="off"
+              placeholder="Search.."
+              className="ml-auto block border"
+              onChange={(e) => {
+                setKeyword(e.target.value);
+              }}
+            />
+          </div>
+
+
           <Wrapper>
             <div className="container w-8/12 mx-auto">
               <table className="w-full">

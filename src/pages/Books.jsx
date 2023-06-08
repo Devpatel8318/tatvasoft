@@ -17,6 +17,7 @@ function EditBook({ swal }) {
   const [pageCount, setPageCount] = useState(1);
   const currentPage = useRef();
   const [rows, setRows] = useState([5]);
+  const [keyword, setKeyword] = useState("");
   const Rows = [5, 10, 20],
     MakeItem = function (X) {
       return <option key={X}>{X}</option>;
@@ -55,6 +56,24 @@ function EditBook({ swal }) {
       });
   }
 
+  useEffect(() => {
+    if (keyword) {
+      const timer = setTimeout(() => {
+        axios
+          .get(
+            `https://book-e-sell-node-api.vercel.app/api/book?pageSize=3&pageIndex=${currentPage.current}&keyword=${keyword}`
+          )
+          .then((res) => {
+            setPageCount(res.data.result.totalPages);
+            setBooks(res.data.result.items);
+          });
+      }, 300);
+      return () => clearTimeout(timer);
+    } else {
+      getPaginatedUsers();
+    }
+  }, [keyword]);
+
   async function deleteBook(id) {
     swal.fire({
       title: 'Are you sure?',
@@ -85,10 +104,34 @@ function EditBook({ swal }) {
             <span className='text-gray-700 font-semibold'>Book Page
             </span>
           </div>
-          <div className='w-8/12 mx-auto text-right text-xl mt-20 mb-8'>
-            <Link to={'/books/addbook'} className='font-semibold bg-rose-500 text-white px-4 py-3'>Add Book
-            </Link>
+
+
+
+
+
+
+
+          <div className="flex justify-end gap-2 w-8/12 mx-auto items-center mt-8 mb-6">
+            <div className='border'>
+              <input
+                type="text"
+                name="search"
+                autoComplete="off"
+                placeholder="Search.."
+                className=""
+                onChange={(e) => {
+                  setKeyword(e.target.value);
+                }}
+              />
+            </div>
+            <div >
+              <Link to={'/books/addbook'} className='font-semibold bg-rose-500 text-white px-4 py-3'>Add Book
+              </Link>
+            </div>
           </div>
+
+
+
           <Wrapper>
             <div className="container w-8/12 mx-auto">
               <table className="w-full">
@@ -109,7 +152,7 @@ function EditBook({ swal }) {
                         <td className="py-8">{book.price}</td>
                         <td className="py-8">{book.category}</td>
                         <td className="py-8 flex gap-3">
-                          <Link to={'/books/'+book.id} className="grow border-green-600 text-green-600 py-1 rounded-md border text-center">Edit</Link>
+                          <Link to={'/books/' + book.id} className="grow border-green-600 text-green-600 py-1 rounded-md border text-center">Edit</Link>
                           <button onClick={() => deleteBook(book.id)} className="grow border-rose-400 text-rose-400 py-1 rounded-md border text-center ">Delete</button>
                         </td>
                       </tr>
