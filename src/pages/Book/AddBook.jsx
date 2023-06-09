@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { useEffect } from "react";
 import axios from "axios"
-import Header from './Header';
-import Footer from './Footer';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 import { Link } from "react-router-dom";
 
 const AddBook = () => {

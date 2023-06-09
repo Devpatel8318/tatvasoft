@@ -37,7 +37,7 @@ function LoginPage() {
             console.log('Form submitted successfully!');
             window.localStorage.setItem("user", response.data.result.id);
             action.resetForm();
-            window.location.replace('/products');
+            window.location.replace('/');
           } else {
 
             alert("Wrong credentials");
@@ -53,7 +53,7 @@ function LoginPage() {
     });
 
   if (user && user!== null) {
-    return <Navigate to={'/products'} />
+    return <Navigate to={'/'} />
   }
 
   return (

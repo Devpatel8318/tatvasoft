@@ -15,14 +15,13 @@ function Products() {
     const [totalbooks, setTotalBooks] = useState([]);
     const [keyword, setKeyword] = useState("");
     const [sortBy, setSortBy] = useState();
-
     const { user } = useContext(UserContext);
     const { addToCart } = useContext(CartContext);
 
     useEffect(() => {
         currentPage.current = 1;
         getPaginatedUsers();
-    }, []);
+    }, [keyword]);
 
     function handlePageClick(e) {
         currentPage.current = e.selected + 1;
@@ -30,42 +29,31 @@ function Products() {
     }
 
     function getPaginatedUsers() {
-        axios
-            .get(
-                `https://book-e-sell-node-api.vercel.app/api/book?pageSize=7&pageIndex=${currentPage.current}`
-            )
-            .then((res) => {
-                setPageCount(res.data.result.totalPages);
-                setBooks(res.data.result.items);
-                setTotalBooks(res.data.result.totalItems);
-            });
+        let url;
+        if (!keyword) {
+            url = `https://book-e-sell-node-api.vercel.app/api/book?pageSize=7&pageIndex=${currentPage.current}`;
+
+        } else {
+            url = `https://book-e-sell-node-api.vercel.app/api/book?pageSize=7&pageIndex=${currentPage.current}&keyword=${keyword}`;
+        }
+
+        const timer = setTimeout(() => {
+            axios
+                .get(url)
+                .then((res) => {
+                    console.log(res.data.result);
+                    setPageCount(res.data.result.totalPages);
+                    setBooks(res.data.result.items);
+                    setTotalBooks(res.data.result.totalItems);
+                });
+        }, 300);
+        return () => clearTimeout(timer);
     }
 
 
     function handleAddToCart(id) {
-        // console.log("clicked");
         addToCart(id);
     }
-
-    useEffect(() => {
-        if (keyword) {
-            const timer = setTimeout(() => {
-                axios
-                    .get(
-                        `https://book-e-sell-node-api.vercel.app/api/book?pageSize=7&pageIndex=${currentPage.current}&keyword=${keyword}`
-                    )
-                    .then((res) => {
-                        console.log(res.data.result);
-                        setPageCount(res.data.result.totalPages);
-                        setBooks(res.data.result.items);
-                        setTotalBooks(res.data.result.totalItems);
-                    });
-            }, 300);
-            return () => clearTimeout(timer);
-        } else {
-            getPaginatedUsers();
-        }
-    }, [keyword]);
 
     const sortBooks = (e) => {
         setSortBy(e.target.value);

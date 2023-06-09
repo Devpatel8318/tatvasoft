@@ -3,7 +3,6 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
-import IndexPage from "./pages/index/IndexPage";
 import RegisterPage from "./pages/register/RegisterPage";
 import LoginPage from "./pages/login/LoginPage";
 import Products from "./pages/products/Products";
@@ -11,14 +10,14 @@ import { CartContextProvider } from "./context/CartContext";
 import { UserContextProvider } from "./context/UserContext";
 import Cart from "./pages/cart/Cart";
 import { ThemeProvider } from "styled-components";
-import AddBook from "./components/AddBook";
+import AddBook from "./pages/Book/AddBook";
 import User from "./pages/user/User";
 import EditUser from "./pages/user/EditUser";
 import Categories from "./pages/category/Categories";
 import AddCategory from "./pages/category/AddCategory";
 import EditCategory from "./pages/category/EditCategory";
-import Books from "./pages/Books";
-import EditBook from "./pages/EditBook";
+import Books from "./pages/Book/Books";
+import EditBook from "./pages/Book/EditBook";
 import Profile from "./pages/profile/Profile";
 
 function App() {
@@ -53,10 +52,9 @@ function App() {
         <CartContextProvider>
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<IndexPage />} />
+              <Route path="/" element={<Products />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/login" element={<LoginPage />} />
-              <Route path="/products" element={<Products />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/users" element={<User />} />
               <Route path="/users/:id" element={<EditUser />} />

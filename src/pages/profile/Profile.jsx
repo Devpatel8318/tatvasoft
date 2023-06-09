@@ -4,7 +4,6 @@ import Footer from '../../components/Footer'
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from 'axios';
-// import { MenuItem, TextField } from '@mui/material';
 import { UserContext } from '../../context/UserContext';
 import { Link } from 'react-router-dom';
 
@@ -229,7 +228,7 @@ function Profile() {
                             <button className='bg-green-500  w-32 h-11 rounded-md text-white' type="submit">
                                 Save
                             </button>
-                            <Link to={'/products'} className='bg-rose-500 w-32 h-11 rounded-md text-white flex items-center justify-center' type="submit">
+                            <Link to={'/'} className='bg-rose-500 w-32 h-11 rounded-md text-white flex items-center justify-center' type="submit">
                                 Cancel
                             </Link>
                         </div>

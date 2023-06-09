@@ -1,19 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Footer from '../../components/Footer'
 import Header from '../../components/Header'
-import {  useFormik } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from 'axios';
 import { MenuItem, TextField } from '@mui/material';
-
+import { UserContext } from '../../context/UserContext';
+import { Navigate } from 'react-router-dom';
 
 
 
 function RegisterPage() {
 
+    const { user } = useContext(UserContext);
+
     const [roles, setRoles] = useState([]);
     useEffect(() => {
-        axios.get('https://book-e-sell-node-api.vercel.app/api/user/roles').then(response => {
+        axios.get(`https://book-e-sell-node-api.vercel.app/api/user/roles`).then(response => {
             console.log(response.data.result);
             setRoles(response.data.result);
         })
@@ -55,22 +58,27 @@ function RegisterPage() {
                     const response = await axios.post('https://book-e-sell-node-api.vercel.app/api/user', values);
                     if (response.status === 200) {
                         alert("User Created");
-                      console.log('User Created');
-                      action.resetForm();
-                      window.location.replace('/login');
+                        console.log('User Created');
+                        action.resetForm();
+                        window.location.replace('/login');
                     } else {
-                      alert("Error creating user");
-                      console.log('Unexpected status:', response.status);
+                        alert("Error creating user");
+                        console.log('Unexpected status:', response.status);
                     }
-          
-                  } catch (error) {
+
+                } catch (error) {
                     alert("Error creating user");
                     console.log('Error submitting form:', error);
-                  }
+                }
             },
         });
 
-    console.log(errors);
+
+    if (user && user !== null) {
+        return <Navigate to={'/'} />
+    }
+
+
     return (
         <>
             <Header />

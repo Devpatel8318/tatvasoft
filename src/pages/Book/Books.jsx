@@ -2,12 +2,11 @@ import React, { useEffect, useState, useRef, useContext } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
-import { Button } from "../styles/Button";
-import { Link, NavLink } from "react-router-dom";
-import { UserContext } from "../context/UserContext";
+import { Link } from "react-router-dom";
+import { UserContext } from "../../context/UserContext";
 import { withSwal } from 'react-sweetalert2';
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
 
 
 function EditBook({ swal }) {
