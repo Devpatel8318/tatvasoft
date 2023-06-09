@@ -19,6 +19,9 @@ import EditCategory from "./pages/category/EditCategory";
 import Books from "./pages/Book/Books";
 import EditBook from "./pages/Book/EditBook";
 import Profile from "./pages/profile/Profile";
+import { store } from "./state/store";
+import { Provider } from 'react-redux';
+import Test from "./pages/Testing/Test";
 
 function App() {
   const theme = {
@@ -48,27 +51,30 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <UserContextProvider>
-        <CartContextProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Products />} />
-              <Route path="/register" element={<RegisterPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/users" element={<User />} />
-              <Route path="/users/:id" element={<EditUser />} />
-              <Route path="/categories" element={<Categories />} />
-              <Route path="/categories/addcategory" element={<AddCategory />} />
-              <Route path="/categories/:id" element={<EditCategory />} />
-              <Route path="/books" element={<Books />} />
-              <Route path="/books/addbook" element={<AddBook />} />
-              <Route path="/books/:id" element={<EditBook />} />
-              <Route path="/profile" element={<Profile />} />
-            </Routes>
-          </BrowserRouter>
-        </CartContextProvider>
-      </UserContextProvider>
+      <Provider store={store}>
+        <UserContextProvider>
+          <CartContextProvider>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Products />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/users" element={<User />} />
+                <Route path="/users/:id" element={<EditUser />} />
+                <Route path="/categories" element={<Categories />} />
+                <Route path="/categories/addcategory" element={<AddCategory />} />
+                <Route path="/categories/:id" element={<EditCategory />} />
+                <Route path="/books" element={<Books />} />
+                <Route path="/books/addbook" element={<AddBook />} />
+                <Route path="/books/:id" element={<EditBook />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/test" element={<Test />} />
+              </Routes>
+            </BrowserRouter>
+          </CartContextProvider>
+        </UserContextProvider>
+      </Provider>
     </ThemeProvider>
   );
 }
