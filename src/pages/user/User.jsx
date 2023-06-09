@@ -2,16 +2,17 @@ import React, { useEffect, useState, useRef, useContext } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
-import { Link} from "react-router-dom";
-import { UserContext } from "../../context/UserContext";
+import { Link, Navigate } from "react-router-dom";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import { withSwal } from 'react-sweetalert2';
+import { useSelector } from 'react-redux'
 
 
 function User({ swal }) {
-  const { user } = useContext(UserContext);
-  const y = user;
+
+  //redux
+  const userRedux = useSelector((state) => state.users.userName);
   const [users, setUsers] = useState([]);
   const [pageCount, setPageCount] = useState(1);
   const currentPage = useRef();
@@ -101,6 +102,8 @@ function User({ swal }) {
     })
   }
 
+  if (!userRedux || userRedux === null) {return <Navigate to={'/login'} />}
+
   return (
     <>
       <div className='flex flex-col h-screen justify-between'>
@@ -149,10 +152,10 @@ function User({ swal }) {
                         <td className="py-8">{user.id}</td>
                         <td className="py-8 grow flex gap-3">
                           <Link to={'/users/' + user.id} className="grow border-green-600 text-green-600 py-1 rounded-md border text-center">Edit</Link>
-                          {user.id != y && (
+                          {user.id != userRedux && (
                             <button onClick={() => deleteUser(user.id)} className="grow border-rose-400 text-rose-400 py-1 rounded-md border text-center">Delete</button>
                           )}
-                          {user.id == y && (
+                          {user.id == userRedux && (
                             <button onClick={() => deleteUser(user.id)} className="grow text-rose-400 py-1 rounded-md text-center"></button>
                           )}
                         </td>

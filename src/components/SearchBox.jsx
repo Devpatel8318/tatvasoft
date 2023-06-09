@@ -1,18 +1,21 @@
-import React, {  useContext, useEffect, useRef, useState } from 'react'
+import React, {useEffect, useRef, useState } from 'react'
 import axios from 'axios';
-import { CartContext } from '../context/CartContext';
+import { useSelector, useDispatch } from 'react-redux'
+import { addToCart } from '../state/slice/cartSlice'
+
 function SearchBox() {
     const inputRef = useRef(null);
     const [isInputClicked, setIsInputClicked] = useState(false);
-
     const [input, setinput] = useState("");
     const [results, setResults] = useState([]);
     const [openSearchResult, setOpenSearchResult] = useState(false);
-    const {addToCart } = useContext(CartContext);
+
+    const userRedux = useSelector((state) => state.users.userName);
+    const dispatch = useDispatch();
 
     function handleAddToCart(id) {
-        // console.log("clicked");
-        addToCart(id);
+        console.log(id,userRedux);
+        dispatch(addToCart({id, userRedux}));
     }
 
     useEffect(() => {

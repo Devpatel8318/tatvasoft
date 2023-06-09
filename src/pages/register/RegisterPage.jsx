@@ -1,18 +1,18 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Footer from '../../components/Footer'
 import Header from '../../components/Header'
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from 'axios';
 import { MenuItem, TextField } from '@mui/material';
-import { UserContext } from '../../context/UserContext';
 import { Navigate } from 'react-router-dom';
 
-
+//redux
+import { useSelector } from 'react-redux'
 
 function RegisterPage() {
 
-    const { user } = useContext(UserContext);
+    const userRedux = useSelector((state) => state.users.userName);
 
     const [roles, setRoles] = useState([]);
     useEffect(() => {
@@ -74,7 +74,7 @@ function RegisterPage() {
         });
 
 
-    if (user && user !== null) {
+    if (userRedux && userRedux !== null) {
         return <Navigate to={'/'} />
     }
 

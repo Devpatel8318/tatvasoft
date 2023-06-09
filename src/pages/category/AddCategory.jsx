@@ -1,17 +1,21 @@
 import React, { useState } from 'react'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import axios from 'axios';
+import { useSelector } from 'react-redux'
+
 
 function AddCategory() {
     const [category, setCategory] = useState("");
+    const userRedux = useSelector((state) => state.users.userName);
+
 
     async function handleSubmit(ev) {
         ev.preventDefault();
         try {
-            
-            const response = await axios.post('https://book-e-sell-node-api.vercel.app/api/category', {name: category});
+
+            const response = await axios.post('https://book-e-sell-node-api.vercel.app/api/category', { name: category });
             if (response.status === 200) {
                 console.log('Category Added');
                 window.location.replace('/categories');
@@ -23,6 +27,10 @@ function AddCategory() {
             alert("Error Adding Category");
             console.log('Error submitting form:', error);
         }
+    }
+
+    if (!userRedux || userRedux === null) {
+        return <Navigate to={'/login'} />
     }
     return (
         <>

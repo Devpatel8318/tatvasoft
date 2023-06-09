@@ -6,8 +6,6 @@ import {
 import RegisterPage from "./pages/register/RegisterPage";
 import LoginPage from "./pages/login/LoginPage";
 import Products from "./pages/products/Products";
-import { CartContextProvider } from "./context/CartContext";
-import { UserContextProvider } from "./context/UserContext";
 import Cart from "./pages/cart/Cart";
 import { ThemeProvider } from "styled-components";
 import AddBook from "./pages/Book/AddBook";
@@ -52,8 +50,6 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Provider store={store}>
-        <UserContextProvider>
-          <CartContextProvider>
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<Products />} />
@@ -72,8 +68,6 @@ function App() {
                 <Route path="/test" element={<Test />} />
               </Routes>
             </BrowserRouter>
-          </CartContextProvider>
-        </UserContextProvider>
       </Provider>
     </ThemeProvider>
   );

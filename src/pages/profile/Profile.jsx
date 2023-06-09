@@ -1,15 +1,18 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from 'axios';
-import { UserContext } from '../../context/UserContext';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+//redux
+import { useSelector } from 'react-redux'
 
 function Profile() {
 
-    const { user } = useContext(UserContext);
+    //redux
+    const userRedux = useSelector((state) => state.users.userName);
+
     const [ready, setReady] = useState(false);
 
     const [state, setState] = useState({
@@ -21,10 +24,11 @@ function Profile() {
     });
     const [roleId, setRoleId] = useState();
     const [role, setRole] = useState("");
+
     useEffect(() => {
-        if (user) {
+        if (userRedux) {
             try {
-                axios.get(`https://book-e-sell-node-api.vercel.app/api/user/byId?id=${user}`)
+                axios.get(`https://book-e-sell-node-api.vercel.app/api/user/byId?id=${userRedux}`)
                     .then(response => {
                         setState((prev) => ({
                             ...prev,
@@ -43,7 +47,7 @@ function Profile() {
 
             }
         }
-    }, [user])
+    }, [userRedux])
 
 
 
@@ -72,9 +76,9 @@ function Profile() {
                     ...values,
                     role,
                     roleId,
-                    id: user
+                    id: userRedux
                 }
-                
+
                 console.log("values", values);
                 try {
                     const response = await axios.put('https://book-e-sell-node-api.vercel.app/api/user', data);
@@ -93,12 +97,19 @@ function Profile() {
                 }
             },
         });
+
     useEffect(() => {
         if (ready) {
             setValues({ ...state });
-
         }
     }, [ready]);
+
+
+    if (!userRedux || userRedux === null) {
+        return <Navigate to={'/login'} />
+    }
+
+
     return (
         <>
             <div className='flex flex-col h-screen justify-between'>

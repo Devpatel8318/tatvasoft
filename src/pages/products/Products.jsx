@@ -2,12 +2,19 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import axios from 'axios'
-import { CartContext } from '../../context/CartContext';
 import ReactPaginate from "react-paginate";
-import { UserContext } from '../../context/UserContext';
 import { Navigate } from 'react-router-dom';
 
+//redux
+import { useSelector, useDispatch } from 'react-redux'
+import { addToCart } from '../../state/slice/cartSlice';
+
 function Products() {
+    //redux
+    const userRedux = useSelector((state) => state.users.userName);
+    const dispatch = useDispatch();
+
+
 
     const [books, setBooks] = useState([]);
     const [pageCount, setPageCount] = useState(1);
@@ -15,8 +22,6 @@ function Products() {
     const [totalbooks, setTotalBooks] = useState([]);
     const [keyword, setKeyword] = useState("");
     const [sortBy, setSortBy] = useState();
-    const { user } = useContext(UserContext);
-    const { addToCart } = useContext(CartContext);
 
     useEffect(() => {
         currentPage.current = 1;
@@ -52,7 +57,7 @@ function Products() {
 
 
     function handleAddToCart(id) {
-        addToCart(id);
+        dispatch(addToCart({id, userRedux}));
     }
 
     const sortBooks = (e) => {
@@ -72,10 +77,11 @@ function Products() {
         setBooks(bookList);
     };
 
-    if (!user || user === null) {
+
+
+    if (!userRedux || userRedux === null) {
         return <Navigate to={'/login'} />
     }
-
 
 
     return (

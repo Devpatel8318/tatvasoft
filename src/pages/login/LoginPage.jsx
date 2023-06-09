@@ -1,18 +1,22 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Footer from '../../components/Footer'
 import Header from '../../components/Header'
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
-import { UserContext } from '../../context/UserContext';
 import { Navigate } from 'react-router-dom';
+
+//redux
+import { useSelector, useDispatch } from 'react-redux'
+import { updateUser } from '../../state/slice/userSlice'
+
 
 
 function LoginPage() {
 
-  const { user } = useContext(UserContext);
-
+  const userRedux = useSelector((state) => state.users.userName);
+  const dispatch = useDispatch();
 
 
   const initialValues = {
@@ -35,7 +39,7 @@ function LoginPage() {
           const response = await axios.post('https://book-e-sell-node-api.vercel.app/api/user/login', values);
           if (response.status === 200) {
             console.log('Form submitted successfully!');
-            window.localStorage.setItem("user", response.data.result.id);
+            dispatch(updateUser(response.data.result.id));
             action.resetForm();
             window.location.replace('/');
           } else {
@@ -52,7 +56,10 @@ function LoginPage() {
       },
     });
 
-  if (user && user!== null) {
+
+
+
+  if (userRedux && userRedux !== null) {
     return <Navigate to={'/'} />
   }
 

@@ -4,10 +4,11 @@ import { useEffect } from "react";
 import axios from "axios"
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import { useSelector } from 'react-redux'
 
 const AddBook = () => {
-    const y = JSON.parse(localStorage.getItem("Shared.LocalStorageKeys.USER"));
+    const userRedux = useSelector((state) => state.users.userName);
     const [category, setCategory] = useState([]);
     const [state, setState] = useState({
         name: "",
@@ -76,7 +77,9 @@ const AddBook = () => {
             });
     };
 
-
+    if (!userRedux || userRedux === null) {
+        return <Navigate to={'/login'} />
+    }
 
     return (
         <>

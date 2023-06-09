@@ -1,14 +1,20 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import SearchBox from './SearchBox'
-import { CartContext } from '../context/CartContext';
-import { UserContext } from '../context/UserContext';
+
+//redux
+import { useSelector, useDispatch } from 'react-redux'
+import { logOut } from '../state/slice/userSlice';
+import { updateCart } from '../state/slice/cartSlice';
 
 function Header() {
-  const { numberOfItems } = useContext(CartContext);
+  const userRedux = useSelector((state) => state.users.userName);
+  const dispatch = useDispatch();
+  const numberOfItems = useSelector((state) => state.cart.numberOfItems);
 
-  const { setUser, user } = useContext(UserContext);
-
+  useEffect(() => {
+    dispatch(updateCart(userRedux));
+  },[]);
 
 
   return (
@@ -22,19 +28,19 @@ function Header() {
           <div className='flex gap-4'>
 
 
-            {user && (
+            {userRedux && (
               <>
                 <Link to={'/users'}>
-                  <span  className='pr-4 border-r-2 border-gray-300'>Users  </span>
+                  <span className='pr-4 border-r-2 border-gray-300'>Users  </span>
                 </Link>
                 <Link to={'/categories'}>
-                  <span  className='pr-4 border-r-2 border-gray-300'>Categories  </span>
+                  <span className='pr-4 border-r-2 border-gray-300'>Categories  </span>
                 </Link>
                 <Link to={'/books'}>
-                  <span  className='pr-4 border-r-2 border-gray-300'>Books  </span>
+                  <span className='pr-4 border-r-2 border-gray-300'>Books  </span>
                 </Link>
                 <Link to={'/profile'}>
-                  <span  className=''>update Profile  </span>
+                  <span className=''>update Profile  </span>
                 </Link>
               </>
             )}
@@ -43,10 +49,10 @@ function Header() {
 
 
 
-            {!user && (
+            {!userRedux && (
               <>
                 <Link to={'/login'}>
-                  <span  className='pr-4 border-r-2 border-gray-300'>login  </span>
+                  <span className='pr-4 border-r-2 border-gray-300'>login  </span>
                 </Link>
                 <Link to={'/register'}>
                   <span >register</span>
@@ -54,7 +60,7 @@ function Header() {
               </>
             )}
 
-            {user && (
+            {userRedux && (
               <>
                 <Link to={'/cart'} className='border ml-2 px-2  shadow-1 flex gap-2 justify-center items-center'>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -63,10 +69,9 @@ function Header() {
                   <div>{numberOfItems}</div>
                   cart
                 </Link>
-                {user && (
+                {userRedux && (
                   <button onClick={() => {
-                    window.localStorage.removeItem('user');
-                    setUser(null);
+                    dispatch(logOut());
                   }}>
                     logout
                   </button>

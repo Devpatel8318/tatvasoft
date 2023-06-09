@@ -3,10 +3,13 @@ import axios from 'axios';
 import { MenuItem, TextField } from '@mui/material';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import { Link, useParams } from 'react-router-dom';
+import { Link, Navigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux'
 
 
 function EditUser() {
+    const userRedux = useSelector((state) => state.users.userName);
+
     const { id } = useParams();
     const [roles, setRoles] = useState([]);
     const [fName, setFName] = useState("");
@@ -19,15 +22,18 @@ function EditUser() {
         axios.get('https://book-e-sell-node-api.vercel.app/api/user/roles').then(response => {
             setRoles(response.data.result);
         });
-        axios.get(`https://book-e-sell-node-api.vercel.app/api/user/byId?id=${id}`).then(response => {
-            setFName(response.data.result.firstName);
-            setLName(response.data.result.lastName);
-            setEmail(response.data.result.email);
-            setRole(response.data.result.roleId);
-            setPassword(response.data.result.password);
-        });
+        axios.get(`https://book-e-sell-node-api.vercel.app/api/user/byId?id=${id}`)
+            .then(response => {
+                setFName(response.data.result.firstName);
+                setLName(response.data.result.lastName);
+                setEmail(response.data.result.email);
+                setRole(response.data.result.roleId);
+                setPassword(response.data.result.password);
+            })
+            .catch(error => {
+                alert("Error:", error.response.data.key);
+            })
     }, []);
-
 
     async function handleSubmit(ev) {
         ev.preventDefault();
@@ -60,6 +66,7 @@ function EditUser() {
             console.log('Error submitting form:', error);
         }
     }
+    if (!userRedux || userRedux === null) {return <Navigate to={'/login'} />}
 
     return (
         <>

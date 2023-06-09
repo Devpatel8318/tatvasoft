@@ -3,11 +3,12 @@ import { useEffect } from "react";
 import axios from "axios"
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
+import { useSelector } from 'react-redux'
 
 function EditBook() {
+  const userRedux = useSelector((state) => state.users.userName);
   const { id } = useParams();
-  const y = JSON.parse(localStorage.getItem("Shared.LocalStorageKeys.USER"));
   const [category, setCategory] = useState([]);
   const [state, setState] = useState({
     name: "",
@@ -100,6 +101,9 @@ function EditBook() {
   };
 
 
+  if (!userRedux || userRedux === null) {
+    return <Navigate to={'/login'} />
+  }
 
   return (
     <>

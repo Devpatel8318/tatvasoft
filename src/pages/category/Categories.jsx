@@ -2,16 +2,20 @@ import React, { useEffect, useState, useRef, useContext } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
-import { Link } from "react-router-dom";
-import { UserContext } from "../../context/UserContext";
+import { Link, Navigate } from "react-router-dom";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer"
 import { withSwal } from 'react-sweetalert2';
 
+//redux
+import { useSelector } from 'react-redux'
 
 function Categories({ swal }) {
-  const { user } = useContext(UserContext);
-  const y = user;
+
+  //redux
+  const userRedux = useSelector((state) => state.users.userName);
+
+
   const [categories, setCategories] = useState([]);
   const [pageCount, setPageCount] = useState(1);
   const currentPage = useRef();
@@ -103,6 +107,11 @@ function Categories({ swal }) {
   }, [keyword]);
 
 
+
+  if (!userRedux || userRedux === null) {
+    return <Navigate to={'/login'} />
+  }
+
   return (
     <>
       <div className='flex flex-col h-screen justify-between'>
@@ -126,7 +135,7 @@ function Categories({ swal }) {
                 }}
               />
             </div>
-            
+
             <div className=''>
               <Link to={'/categories/addcategory'} className='bg-rose-500 text-white px-4 py-3'>Add Category
               </Link>

@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import { Link, useParams } from 'react-router-dom';
+import { Link, Navigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux'
 
 function EditCategory() {
     const { id } = useParams();
     const [categoryName, setCategoryName] = useState("");
+    const userRedux = useSelector((state) => state.users.userName);
 
     useEffect(() => {
         axios.get(`https://book-e-sell-node-api.vercel.app/api/category/byId?id=${id}`).then(response => {
@@ -21,7 +23,7 @@ function EditCategory() {
         try {
             const response = await axios.put('https://book-e-sell-node-api.vercel.app/api/category', {
                 id,
-                name:categoryName
+                name: categoryName
             });
             if (response.status === 200) {
                 console.log('User Updated');
@@ -35,6 +37,8 @@ function EditCategory() {
             console.log('Error submitting form:', error);
         }
     }
+
+    if (!userRedux || userRedux === null) { return <Navigate to={'/login'} /> }
 
     return (
         <>

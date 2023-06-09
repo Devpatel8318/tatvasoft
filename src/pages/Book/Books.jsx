@@ -2,16 +2,16 @@ import React, { useEffect, useState, useRef, useContext } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
-import { Link } from "react-router-dom";
-import { UserContext } from "../../context/UserContext";
+import { Link, Navigate } from "react-router-dom";
 import { withSwal } from 'react-sweetalert2';
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 
+import { useSelector } from 'react-redux'
+
 
 function EditBook({ swal }) {
-  const { user } = useContext(UserContext);
-  const y = user;
+  const userRedux = useSelector((state) => state.users.userName);
   const [books, setBooks] = useState([]);
   const [pageCount, setPageCount] = useState(1);
   const currentPage = useRef();
@@ -93,7 +93,9 @@ function EditBook({ swal }) {
       }
     })
   }
-
+  if (!userRedux || userRedux === null) {
+    return <Navigate to={'/login'} />
+  }
   return (
     <>
       <div className='flex flex-col h-screen justify-between'>
@@ -103,13 +105,6 @@ function EditBook({ swal }) {
             <span className='text-gray-700 font-semibold'>Book Page
             </span>
           </div>
-
-
-
-
-
-
-
           <div className="flex justify-end gap-2 w-8/12 mx-auto items-center mt-8 mb-6">
             <div className='border'>
               <input
@@ -128,9 +123,6 @@ function EditBook({ swal }) {
               </Link>
             </div>
           </div>
-
-
-
           <Wrapper>
             <div className="container w-8/12 mx-auto">
               <table className="w-full">
@@ -161,7 +153,6 @@ function EditBook({ swal }) {
               </table>
             </div>
           </Wrapper>
-
           <div className="flex justify-end items-center w-8/12 mx-auto text-center  mt-6 mb-4 p-3">
             Rows per page:
             <select className="ml-2 px-3 py-3 border" onChange={handleSelectChange}>
@@ -186,11 +177,7 @@ function EditBook({ swal }) {
             activeClassName="text-white bg-rose-500 rounded-full p-4 h-2 w-2 flex items-center justify-center"
             className=' flex mb-6 items-center justify-center gap-5 p-4 mt-10'
           />
-
-
         </div>
-
-
         <Footer />
       </div>
 
